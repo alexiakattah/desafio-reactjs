@@ -23,7 +23,13 @@ const tags = [
     id: 2,
   },
 ];
-export default function ModalTask({ modal, setModal }: any) {
+export default function ModalTask({
+  modal,
+  setModal,
+}: {
+  modal: boolean;
+  setModal: any;
+}) {
   const { project, setTasks, tasks } = useProject();
 
   const schema = z.object({
@@ -31,16 +37,12 @@ export default function ModalTask({ modal, setModal }: any) {
       .string({
         required_error: 'Por favor, insira o título',
       })
-      .min(3, 'Por favor, insira o título')
-      .max(100, 'Por favor, insira o título')
-      .trim(),
+      .min(3, 'Por favor, insira o título'),
     description: z
       .string({
         required_error: 'Por favor, insira a descrição',
       })
-      .min(3, 'Por favor, insira a descrição')
-      .max(100, 'Por favor, insira a descrição')
-      .trim(),
+      .min(3, 'Por favor, insira a descrição'),
     project: z.string().nonempty({ message: 'Selecione um projeto' }),
   });
 
@@ -81,17 +83,20 @@ export default function ModalTask({ modal, setModal }: any) {
         <Input
           placeholder="Título"
           type="text"
+          data-testid="input-title"
           {...register('title', {})}
           errors={errors.title && errors.title.message}
         />
         <TextArea
           placeholder="Descrição"
           type="text"
+          data-testid="input-description"
           {...register('description', {})}
           errors={errors.description && errors.description.message}
         />
         <select
           {...register('project')}
+          data-testid="input-project"
           className="w-full p-2 bg-gray-100 rounded-md border border-gray-200 focus:outline-none focus:ring-1 mb-1  focus:ring-green-secondary"
         >
           <option className="text-gray-400" value={''}>
@@ -122,6 +127,7 @@ export default function ModalTask({ modal, setModal }: any) {
                   key={index}
                   style={{ backgroundColor: getRandomColor() }}
                   {...register('tags', {})}
+                  data-testid="input-tags"
                   className=" px-2 rounded cursor-pointer"
                 >
                   {tag.title}

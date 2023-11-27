@@ -91,7 +91,7 @@ export default function CardWrapper() {
                               className="bg-white rounded-md p-2 mb-2"
                             >
                               <div>
-                                <h1 className="font-medium">{task.name}</h1>
+                                <h1 className="font-medium">{task.title}</h1>
                                 <p className="text-sm">{task.description}</p>
 
                                 <div className="flex space-x-2">
@@ -136,7 +136,7 @@ export default function CardWrapper() {
                           {...providedDrag.dragHandleProps}
                           className="bg-white rounded-md p-2 mb-2"
                         >
-                          <h1 className="font-medium">{task.name}</h1>
+                          <h1 className="font-medium">{task.title}</h1>
                           <p className="text-sm">{task.description}</p>
                           <div className="flex space-x-2">
                             {task.tags.map((tag, index) => {
@@ -183,7 +183,7 @@ export default function CardWrapper() {
                           {...providedDrag.dragHandleProps}
                           className="bg-white rounded-md p-2 mb-2"
                         >
-                          <h1 className="font-medium">{task.name}</h1>
+                          <h1 className="font-medium">{task.title}</h1>
                           <p className="text-sm">{task.description}</p>
                           <div className="flex space-x-2">
                             {task.tags.map((tag, index) => {

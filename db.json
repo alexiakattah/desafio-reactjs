@@ -11,54 +11,12 @@
       "title": "Project 2",
       "description": "Project 2 description",
       "tasks": ["1", "2", "3"]
-    },
-    {
-      "title": "project3",
-      "description": "dfg",
-      "status": "TODO",
-      "id": "Z2XrsAM"
-    },
-    {
-      "title": "project3",
-      "description": "dfg",
-      "status": "TODO",
-      "id": "fOz8ZbQ"
-    },
-    {
-      "title": "project3",
-      "description": "dfg",
-      "status": "TODO",
-      "id": "czi1K79"
-    },
-    {
-      "title": "project3",
-      "description": "dfg",
-      "status": "TODO",
-      "id": "Sk98K3g"
-    },
-    {
-      "title": "project3",
-      "description": "dfg",
-      "status": "TODO",
-      "id": "NUe2jSp"
-    },
-    {
-      "title": "dcsdf",
-      "description": "sdf",
-      "status": "TODO",
-      "id": "Oy134l6"
-    },
-    {
-      "title": "project",
-      "description": "dsadfsadf",
-      "status": "TODO",
-      "id": "GsLcIZk"
     }
   ],
   "tasks": [
     {
       "id": "1",
-      "name": "Task 1",
+      "title": "Task 1",
       "description": "Task 1 description",
       "status": "TODO",
       "tags": ["tag1", "tag2"],
@@ -66,7 +24,7 @@
     },
     {
       "id": "2",
-      "name": "Task 2",
+      "title": "Task 2",
       "description": "Task 2 description",
       "status": "DOING",
       "tags": ["tag1", "tag2"],
@@ -74,7 +32,7 @@
     },
     {
       "id": "3",
-      "name": "Task 3",
+      "title": "Task 3",
       "description": "Task 3 description",
       "status": "DONE",
       "tags": ["tag1", "tag2"],
@@ -82,7 +40,7 @@
     },
     {
       "id": "4",
-      "name": "Task 4",
+      "title": "Task 4",
       "description": "Task 4 description",
       "status": "TODO",
       "tags": ["tag1", "tag2"],
@@ -90,7 +48,7 @@
     },
     {
       "id": "5",
-      "name": "Task 5",
+      "title": "Task 5",
       "description": "Task 5 description",
       "status": "DOING",
       "tags": ["tag1", "tag2"],
@@ -98,7 +56,7 @@
     },
     {
       "id": "6",
-      "name": "Task 6",
+      "title": "Task 6",
       "description": "Task 6 description",
       "status": "DONE",
       "tags": ["tag1", "tag2"],

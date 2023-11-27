@@ -25,14 +25,12 @@ export default function ModalProject({
         required_error: 'Por favor, insira o título',
       })
       .min(3, 'Por favor, insira o título')
-      .max(100, 'Por favor, insira o título')
       .trim(),
     description: z
       .string({
         required_error: 'Por favor, insira a descrição',
       })
       .min(3, 'Por favor, insira a descrição')
-      .max(100, 'Por favor, insira a descrição')
       .trim(),
   });
 
