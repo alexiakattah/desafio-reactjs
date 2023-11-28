@@ -16,7 +16,12 @@
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
 
+
+body {
+  @apply text-gray-600
+}
+
+h1 {
+  @apply font-medium text-gray-600
 }

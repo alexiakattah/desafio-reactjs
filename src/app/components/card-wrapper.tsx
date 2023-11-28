@@ -1,12 +1,13 @@
-' use client';
+'use client';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import useProject from '../hooks/projects';
+import Task from './task';
 
 export default function CardWrapper() {
-  const { project, setProject, tasks } = useProject();
+  const { project, setProject, tasks, setTasks } = useProject();
+
   const onDragEnd = (result: any) => {
     const { destination, source, draggableId } = result;
-    console.log('🚀 ~ file: card-wrapper.tsx:9 ~ onDragEnd ~ result:', result);
 
     if (!destination) {
       return;
@@ -19,59 +20,38 @@ export default function CardWrapper() {
       return;
     }
 
-    const start = project[source.droppableId];
-    const finish = project[destination.droppableId];
+    const updatedTasks = tasks.slice();
 
-    if (start === finish) {
-      const newTaskIds = Array.from(start.id);
-      newTaskIds.splice(source.index, 1);
-      newTaskIds.splice(destination.index, 0, draggableId);
+    const sourceIndex = tasks.findIndex((task) => task.id === draggableId);
 
-      const newColumn = {
-        ...start,
-        taskIds: newTaskIds,
-      };
+    const [removedTask] = updatedTasks.splice(sourceIndex, 1);
 
-      setProject({
-        ...project,
-        [newColumn.id]: newColumn,
-      });
-
-      return;
-    }
-
-    // Moving from one list to another
-    const startTaskIds = Array.from(start.id);
-    startTaskIds.splice(source.index, 1);
-    const newStart = {
-      ...start,
-      taskIds: startTaskIds,
+    const updatedRemovedTask = {
+      ...removedTask,
+      status: destination.droppableId.toUpperCase(),
     };
 
-    const finishTaskIds = Array.from(finish.id);
-    finishTaskIds.splice(destination.index, 0, draggableId);
-    const newFinish = {
-      ...finish,
-      taskIds: finishTaskIds,
-    };
+    const destinationIndex = destination.index;
+    console.log(
+      '🚀 ~ file: card-wrapper.tsx:37 ~ onDragEnd ~ destinationIndex:',
+      destinationIndex,
+    );
+    updatedTasks.splice(destinationIndex, 0, updatedRemovedTask);
 
-    setProject({
-      ...project,
-      [newStart.id]: newStart,
-      [newFinish.id]: newFinish,
-    });
+    setTasks(updatedTasks);
   };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="grid grid-cols-3 md:pl-28 relative  container mr-10 w-[80%] self-end text-gray-800 space-x-3">
-        <div className="col-span-1">
-          <h1>Progresso</h1>
+      <div className="grid md:grid-cols-3 grid-cols-1 md:pl-24 relative self-center container w-[80%] md:mr-14 md:self-end text-gray-800 space-x-5 md:space-y-0 mb-16 space-y-5">
+        <div className="col-span-1 ml-2 md:ml-0">
+          <h1 className="mb-3">Progresso</h1>
           <Droppable droppableId="todo">
             {(provided, snapshot) => (
               <ul
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="bg-gray-50 rounded-md p-2"
+                className=" rounded-md "
               >
                 {tasks
                   .filter((task) => task.status === 'TODO')
@@ -80,34 +60,16 @@ export default function CardWrapper() {
                       return (
                         <Draggable
                           key={task.id}
-                          draggableId={task.id}
+                          draggableId={`${task.id}`}
                           index={index}
                         >
                           {(providedDrag, snapshot) => (
-                            <li
-                              ref={providedDrag.innerRef}
-                              {...providedDrag.draggableProps}
-                              {...providedDrag.dragHandleProps}
-                              className="bg-white rounded-md p-2 mb-2"
-                            >
-                              <div>
-                                <h1 className="font-medium">{task.title}</h1>
-                                <p className="text-sm">{task.description}</p>
-
-                                <div className="flex space-x-2">
-                                  {task.tags.map((tag, index) => {
-                                    return (
-                                      <span
-                                        key={index}
-                                        className="bg-gray-200 px-2 rounded"
-                                      >
-                                        {tag}
-                                      </span>
-                                    );
-                                  })}
-                                </div>
-                              </div>
-                            </li>
+                            <Task
+                              {...task}
+                              innerRef={providedDrag.innerRef}
+                              draggableProps={providedDrag.draggableProps}
+                              dragHandleProps={providedDrag.dragHandleProps}
+                            />
                           )}
                         </Draggable>
                       );
@@ -116,93 +78,67 @@ export default function CardWrapper() {
             )}
           </Droppable>
         </div>
-        <div className="col-span-1">
-          <h1>Em andamento</h1>
+        <div className="col-span-1 ms-0">
+          <h1 className="mb-3">Em andamento</h1>
           <Droppable droppableId="doing">
             {(provided, snapshot) => (
-              <div
+              <ul
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="bg-gray-50 rounded-md p-2"
+                className=" rounded-md "
               >
                 {tasks.map((task, i) => {
                   if (task.status !== 'DOING') return;
                   return (
-                    <Draggable key={task.id} draggableId={task.id} index={i}>
+                    <Draggable
+                      key={task.id}
+                      draggableId={`${task.id}`}
+                      index={i}
+                    >
                       {(providedDrag, snapshot) => (
-                        <li
-                          ref={providedDrag.innerRef}
-                          {...providedDrag.draggableProps}
-                          {...providedDrag.dragHandleProps}
-                          className="bg-white rounded-md p-2 mb-2"
-                        >
-                          <h1 className="font-medium">{task.title}</h1>
-                          <p className="text-sm">{task.description}</p>
-                          <div className="flex space-x-2">
-                            {task.tags.map((tag, index) => {
-                              return (
-                                <span
-                                  key={index}
-                                  className="bg-gray-200 px-2 rounded"
-                                >
-                                  {tag}
-                                </span>
-                              );
-                            })}
-                          </div>
-                        </li>
+                        <Task
+                          {...task}
+                          innerRef={providedDrag.innerRef}
+                          draggableProps={providedDrag.draggableProps}
+                          dragHandleProps={providedDrag.dragHandleProps}
+                        />
                       )}
                     </Draggable>
                   );
                 })}
-              </div>
+              </ul>
             )}
           </Droppable>
         </div>
         <div className="col-span-1">
-          <h1>Finalizado</h1>
+          <h1 className="mb-3">Finalizado</h1>
           <Droppable droppableId="done">
             {(provided, snapshot) => (
-              <div
+              <ul
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="bg-gray-50 rounded-md p-2"
+                className=" rounded-md  "
               >
                 {tasks.map((task, index) => {
                   if (task.status !== 'DONE') return;
                   return (
                     <Draggable
                       key={task.id}
-                      draggableId={task.id}
+                      draggableId={`${task.id}`}
                       index={index}
                     >
                       {(providedDrag, snapshot) => (
-                        <li
-                          ref={providedDrag.innerRef}
-                          {...providedDrag.draggableProps}
-                          {...providedDrag.dragHandleProps}
-                          className="bg-white rounded-md p-2 mb-2"
-                        >
-                          <h1 className="font-medium">{task.title}</h1>
-                          <p className="text-sm">{task.description}</p>
-                          <div className="flex space-x-2">
-                            {task.tags.map((tag, index) => {
-                              return (
-                                <span
-                                  key={index}
-                                  className="bg-gray-200 px-2 rounded"
-                                >
-                                  {tag}
-                                </span>
-                              );
-                            })}
-                          </div>
-                        </li>
+                        <Task
+                          {...task}
+                          innerRef={providedDrag.innerRef}
+                          draggableProps={providedDrag.draggableProps}
+                          dragHandleProps={providedDrag.dragHandleProps}
+                        />
                       )}
                     </Draggable>
                   );
                 })}
-              </div>
+              </ul>
             )}
           </Droppable>
         </div>

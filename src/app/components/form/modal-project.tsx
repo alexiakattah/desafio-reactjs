@@ -63,7 +63,7 @@ export default function ModalProject({
       enqueueSnackbar('Projeto criado com sucesso', {
         variant: 'success',
       });
-      setProject([...project, resultData]);
+      setProject([...project, resultData.res]);
       setModal(false);
     } else {
       enqueueSnackbar('Erro ao criar projeto', {

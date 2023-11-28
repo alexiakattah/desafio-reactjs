@@ -39,7 +39,7 @@ export default function SideBar({}) {
         className="absolute  top-0 left-0  w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 flex flex-col justify-between overflow-y-auto bg-gray-50 text-gray-800">
+        <div className="h-full px-3 py-4 flex flex-col justify-between overflow-y-auto bg-white text-gray-800">
           <ul className="space-y-2 font-medium">
             <li>
               <a

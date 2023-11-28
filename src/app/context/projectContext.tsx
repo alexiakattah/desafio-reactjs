@@ -18,6 +18,8 @@ interface TaskType {
   title: string;
   description: string;
   status: string;
+  createdAt: string;
+  project: string;
   tags: string[];
 }
 

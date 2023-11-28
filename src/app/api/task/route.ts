@@ -13,6 +13,7 @@ export async function POST(request: Request) {
       tags,
       description,
       status: 'TODO',
+      createdAt: new Date().toISOString(),
     }),
   });
   console.log('🚀 ~ file: route.ts:9 ~ POST ~ res:', res);

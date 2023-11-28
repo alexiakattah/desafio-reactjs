@@ -1,4 +1,5 @@
 import useProject from '@/app/hooks/projects';
+import { taskColor } from '@/utils/func';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
@@ -54,7 +55,6 @@ export default function ModalTask({
     formState: { errors },
   } = useForm<IFormProps>({
     resolver: zodResolver(schema),
-    mode: 'all',
   });
 
   const submit = async (data: IFormProps) => {
@@ -125,10 +125,9 @@ export default function ModalTask({
               return (
                 <span
                   key={index}
-                  style={{ backgroundColor: getRandomColor() }}
                   {...register('tags', {})}
                   data-testid="input-tags"
-                  className=" px-2 rounded cursor-pointer"
+                  className={`px-2 rounded cursor-pointer ${taskColor[index]}`}
                 >
                   {tag.title}
                 </span>
