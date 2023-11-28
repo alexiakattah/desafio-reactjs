@@ -8,8 +8,6 @@ Olá, candidato! Estamos felizes em tê-lo aqui. Este desafio foi criado para av
 
 ## 🚀 Objetivo:
 
-Desenvolver uma aplicação frontend para gerenciar um sistema de tarefas e projetos, permitindo que usuários criem projetos e associem tarefas a eles.
-
 ## 📖 Regras de Negócio:
 
 1. Somente o criador do projeto pode adicionar ou remover membros.

@@ -6,7 +6,7 @@ import Task from './task';
 export default function CardWrapper() {
   const { project, setProject, tasks, setTasks } = useProject();
 
-  const onDragEnd = (result: any) => {
+  const onDragEnd = async (result: any) => {
     const { destination, source, draggableId } = result;
 
     if (!destination) {
@@ -30,12 +30,13 @@ export default function CardWrapper() {
       ...removedTask,
       status: destination.droppableId.toUpperCase(),
     };
+    const updateRemoveTask = await fetch(`/api/task/${updatedRemovedTask.id}`, {
+      method: 'PUT',
+      body: JSON.stringify(updatedRemovedTask),
+    });
 
     const destinationIndex = destination.index;
-    console.log(
-      '🚀 ~ file: card-wrapper.tsx:37 ~ onDragEnd ~ destinationIndex:',
-      destinationIndex,
-    );
+
     updatedTasks.splice(destinationIndex, 0, updatedRemovedTask);
 
     setTasks(updatedTasks);
@@ -43,7 +44,7 @@ export default function CardWrapper() {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="grid md:grid-cols-3 grid-cols-1 md:pl-24 relative self-center container w-[80%] md:mr-14 md:self-end text-gray-800 space-x-5 md:space-y-0 mb-16 space-y-5">
+      <div className="card-wrapper grid md:grid-cols-3 grid-cols-1  relative self-center container  md:mr-14 md:self-end text-gray-800 space-x-5 md:space-y-0 mb-16 space-y-5">
         <div className="col-span-1 ml-2 md:ml-0">
           <h1 className="mb-3">Progresso</h1>
           <Droppable droppableId="todo">

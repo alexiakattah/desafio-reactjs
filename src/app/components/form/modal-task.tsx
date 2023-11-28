@@ -2,6 +2,7 @@ import useProject from '@/app/hooks/projects';
 import { taskColor } from '@/utils/func';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { enqueueSnackbar } from 'notistack';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { Input } from './input';
@@ -32,6 +33,7 @@ export default function ModalTask({
   setModal: any;
 }) {
   const { project, setTasks, tasks } = useProject();
+  const [tag, setTag] = useState<string[]>([]);
 
   const schema = z.object({
     title: z
@@ -45,6 +47,11 @@ export default function ModalTask({
       })
       .min(3, 'Por favor, insira a descrição'),
     project: z.string().nonempty({ message: 'Selecione um projeto' }),
+    tags: z.array(
+      z.string({
+        required_error: 'Selecione uma tag',
+      }),
+    ),
   });
 
   const {
@@ -58,24 +65,45 @@ export default function ModalTask({
   });
 
   const submit = async (data: IFormProps) => {
+    console.log('🚀 ~ file: modal-task.tsx:68 ~ submit ~ data:', data);
     const res = await fetch('/api/task', {
       method: 'POST',
       body: JSON.stringify(data),
     });
     const json = await res.json();
-    console.log(json);
+
     setTasks([...tasks, json]);
     enqueueSnackbar('Task criada com sucesso', { variant: 'success' });
     setModal(!modal);
   };
-  function getRandomColor() {
-    let color = 'rgba(';
-    for (let i = 0; i < 3; i++) {
-      color += Math.floor(Math.random() * 256) + ',';
+
+  const handleSelectTag = (e: any) => {
+    const { innerText } = e.target;
+
+    const selectedTags = getValues('tags') || []; // Certifique-se de obter uma matriz válida
+
+    if (selectedTags.length === 3) {
+      return enqueueSnackbar('Você só pode selecionar 3 tags', {
+        variant: 'error',
+      });
     }
-    color += '0.1)';
-    return color;
-  }
+
+    if (!selectedTags.length) {
+      setValue('tags', [innerText]);
+    } else {
+      if (selectedTags.includes(innerText)) {
+        const newTags = selectedTags.filter((item) => item !== innerText);
+        setValue('tags', newTags);
+        setTag(newTags);
+      } else {
+        setValue('tags', [...selectedTags, innerText]);
+        setTag([...selectedTags, innerText]);
+      }
+    }
+
+    // Aqui, você pode usar o console.log para verificar o valor atual de 'tags'
+    console.log('Valor atual de tags:', getValues('tags'));
+  };
   return (
     <ModalWrapper modal={modal} setModal={setModal}>
       <h2 className="text-2xl ">Criar task</h2>
@@ -121,15 +149,20 @@ export default function ModalTask({
         <div>
           <p className="mb-2">Tags</p>
           <div className="flex space-x-4">
-            {tags.map((tag, index) => {
+            {tags.map((tagMap, index) => {
+              const tagsSelected = getValues('tags') || [];
+              const isTagSelected = tagsSelected.includes(tagMap.title);
+
               return (
                 <span
                   key={index}
-                  {...register('tags', {})}
+                  onClick={(e) => handleSelectTag(e)}
                   data-testid="input-tags"
-                  className={`px-2 rounded cursor-pointer ${taskColor[index]}`}
+                  className={`px-2 rounded cursor-pointer ${taskColor[index]} ${
+                    isTagSelected ? 'bg-green-secondary' : ''
+                  }`}
                 >
-                  {tag.title}
+                  {tagMap.title}
                 </span>
               );
             })}

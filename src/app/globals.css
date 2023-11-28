@@ -25,3 +25,10 @@ body {
 h1 {
   @apply font-medium text-gray-600
 }
+
+@media (min-width: 768px) {
+
+  .card-wrapper {
+    width: calc(100% - 18rem);
+  }
+}

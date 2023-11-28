@@ -16,7 +16,6 @@ export async function POST(request: Request) {
       createdAt: new Date().toISOString(),
     }),
   });
-  console.log('🚀 ~ file: route.ts:9 ~ POST ~ res:', res);
   return Response.json({ res });
 }
 
@@ -27,7 +26,6 @@ export async function GET(request: Request) {
       'Content-Type': 'application/json',
     },
   });
-  console.log('🚀 ~ file: route.ts:29 ~ GET ~ json:', res);
 
   return Response.json({ res });
 }

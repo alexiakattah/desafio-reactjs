@@ -17,7 +17,7 @@ export default function SideBar({}) {
         data-drawer-toggle="default-sidebar"
         aria-controls="default-sidebar"
         type="button"
-        className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
       >
         <span className="sr-only">Open</span>
         <svg
@@ -36,7 +36,7 @@ export default function SideBar({}) {
       </button>
 
       <div
-        className="absolute  top-0 left-0  w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        className="absolute  top-0 left-0  w-52 h-screen transition-transform -translate-x-full md:translate-x-0"
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 flex flex-col justify-between overflow-y-auto bg-white text-gray-800">
